@@ -2,8 +2,8 @@ package com.arwani.pokedex.ui.screen.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arwani.pokedex.ui.data.PokedexRepository
-import com.arwani.pokedex.ui.data.network.PokedexResponse
+import com.arwani.pokedex.data.PokedexRepository
+import com.arwani.pokedex.data.network.PokedexResponse
 import com.arwani.pokedex.ui.screen.common.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

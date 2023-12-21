@@ -1,11 +1,13 @@
 package com.arwani.pokedex.ui.screen.home
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -32,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.arwani.pokedex.ui.screen.common.UiState
+import com.arwani.pokedex.ui.screen.components.DropDownMenuItems
 import com.arwani.pokedex.ui.screen.components.PokedexTopAppBar
 import com.arwani.pokedex.ui.screen.components.TopAppSearchBar
 import kotlinx.coroutines.CoroutineScope
@@ -56,7 +59,7 @@ fun MainScreen(
                     TopAppSearchBar(
                         navigateUp = { topState = false },
                         onChangeValue = {
-                            vieModel.search(it)
+                            vieModel.inputQuery = it
                         }
                     )
                 }
@@ -72,13 +75,10 @@ fun MainScreen(
                                     tint = Color.Black.copy(0.7f)
                                 )
                             }
-
-                            IconButton(onClick = { }) {
-                                Icon(
-                                    imageVector = Icons.Default.List,
-                                    contentDescription = "Search",
-                                    tint = Color.Black.copy(0.7f)
-                                )
+                            IconButton(onClick = { /*TODO*/ }) {
+                                DropDownMenuItems(isUpdateItem = {
+                                    vieModel.option = it
+                                })
                             }
                         }
 
@@ -99,33 +99,34 @@ fun MainScreen(
                     }
                 }
 
-                is UiState.Success -> {
-                    LazyColumn(
-                        modifier = modifier.padding(paddingValues)
-                    ) {
-                        val items = uiState.data.results
-                        if (items?.isNotEmpty() == true) {
-                            itemsIndexed(items) { id, data ->
-                                Box(
-                                    modifier = modifier.clickable { navigateToDetail(id.plus(1)) }
-                                ) {
-                                    Column(
-                                        modifier = modifier.padding(
-                                            horizontal = 12.dp,
-                                            vertical = 16.dp
-                                        ),
-                                        horizontalAlignment = Alignment.Start
-                                    ) {
-                                        Text(text = data.name.toString())
-                                        Divider(thickness = 2.dp)
-                                    }
-                                }
+                is UiState.Success -> {}
+
+                is UiState.Error -> {}
+            }
+            vieModel.getSearchPokedex().collectAsState(initial = emptyList()).value.let { items ->
+                LazyColumn(
+                    modifier = modifier.padding(paddingValues)
+                ) {
+                    itemsIndexed(items) { id, data ->
+                        Box(
+                            modifier = modifier.clickable {
+                                vieModel.inputQuery = ""
+                                navigateToDetail(id.plus(1))
+                            }
+                        ) {
+                            Column(
+                                modifier = modifier.padding(
+                                    horizontal = 12.dp,
+                                    vertical = 16.dp
+                                ),
+                                horizontalAlignment = Alignment.Start
+                            ) {
+                                Text(text = data.name)
+                                Divider(thickness = 2.dp)
                             }
                         }
                     }
                 }
-
-                is UiState.Error -> {}
             }
         }
     }
