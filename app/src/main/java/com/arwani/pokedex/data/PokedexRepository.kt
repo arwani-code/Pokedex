@@ -47,10 +47,11 @@ class PokedexRepository @Inject constructor(
     }
 
     suspend fun upsertData(result: List<Result>?) {
-        val data = result?.map {
+        val data = result?.mapIndexed { index, it ->
             PokedexEntity(
                 id = it.url.toString(),
-                name = it.name.toString()
+                name = it.name.toString(),
+                pokdexId = index
             )
         }
         if (data != null) {

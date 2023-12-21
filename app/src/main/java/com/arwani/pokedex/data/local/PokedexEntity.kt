@@ -14,4 +14,7 @@ data class PokedexEntity(
 
     @ColumnInfo(name = "name")
     val name: String,
+
+    @ColumnInfo(name = "pokedexId")
+    val pokdexId: Int,
 )

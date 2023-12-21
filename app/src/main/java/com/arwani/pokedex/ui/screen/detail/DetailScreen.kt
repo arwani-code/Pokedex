@@ -101,7 +101,7 @@ fun DetailScreen(
                                             .build(),
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop,
-                                        modifier = modifier.size(100.dp)
+                                        modifier = modifier.size(150.dp)
                                     )
                                 }
                             }

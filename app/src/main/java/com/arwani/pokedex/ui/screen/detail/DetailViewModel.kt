@@ -28,7 +28,9 @@ class DetailViewModel @Inject constructor(
             repository.getDetailPokedex(id)
                 .flowOn(Dispatchers.IO)
                 .catch { _uiState.value = UiState.Error(it.message.toString()) }
-                .collect { _uiState.value = UiState.Success(it) }
+                .collect {
+                    _uiState.value = UiState.Success(it)
+                }
         }
     }
 }

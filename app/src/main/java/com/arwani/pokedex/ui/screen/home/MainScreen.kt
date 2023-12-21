@@ -107,11 +107,11 @@ fun MainScreen(
                 LazyColumn(
                     modifier = modifier.padding(paddingValues)
                 ) {
-                    itemsIndexed(items) { id, data ->
+                    itemsIndexed(items) { _, data ->
                         Box(
                             modifier = modifier.clickable {
                                 vieModel.inputQuery = ""
-                                navigateToDetail(id.plus(1))
+                                navigateToDetail(data.pokdexId.plus(1))
                             }
                         ) {
                             Column(
